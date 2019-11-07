@@ -1,7 +1,8 @@
 DROP TABLE IF EXISTS usuario;
 DROP TABLE IF EXISTS cargo;
 DROP TABLE IF EXISTS perfil;
- 
+
+--CRIACAO DAS TABELAS
 CREATE TABLE cargo (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nome VARCHAR(250) NOT NULL
@@ -23,6 +24,7 @@ CREATE TABLE usuario (
   fk_perfil INT NOT NULL
 );
 
+-- Criacao das FKs
 ALTER TABLE usuario
     ADD FOREIGN KEY (fk_cargo) 
     REFERENCES cargo(id);
@@ -30,3 +32,8 @@ ALTER TABLE usuario
 ALTER TABLE usuario
     ADD FOREIGN KEY (fk_perfil) 
     REFERENCES perfil(id);
+
+--INSERTS
+INSERT INTO cargo(nome) VALUES ('Gerente');
+INSERT INTO cargo(nome) VALUES ('Supervisor');
+INSERT INTO cargo(nome) VALUES ('Administrativo');
