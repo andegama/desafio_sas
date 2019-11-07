@@ -18,6 +18,7 @@ CREATE TABLE usuario (
   cpf VARCHAR(11) NOT NULL,
   sexo VARCHAR(1) NOT NULL,
   data_nascimento DATE NOT NULL,
+  ativo BOOLEAN NOT NULL,
   fk_cargo INT NOT NULL,
   fk_perfil INT NOT NULL
 );
