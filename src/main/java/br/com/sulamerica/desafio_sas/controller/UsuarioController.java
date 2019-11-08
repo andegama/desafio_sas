@@ -1,5 +1,7 @@
 package br.com.sulamerica.desafio_sas.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,12 +10,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 import br.com.sulamerica.desafio_sas.entity.Usuario;
 import br.com.sulamerica.desafio_sas.exceptions.NegocioException;
 import br.com.sulamerica.desafio_sas.response.ObjectResponse;
 import br.com.sulamerica.desafio_sas.service.UsuarioService;
 
 @RestController
+@RequestMapping("/usuario")
 public class UsuarioController extends GenericController{
 
 	@Autowired
@@ -25,7 +31,7 @@ public class UsuarioController extends GenericController{
 	 * @return
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ResponseEntity<ObjectResponse> save(@RequestBody Usuario usuario) {
+	public ResponseEntity<ObjectResponse> save(@Valid @RequestBody Usuario usuario) {
 
 		try {
 			return build(service.save(usuario), HttpStatus.CREATED);
@@ -47,7 +53,8 @@ public class UsuarioController extends GenericController{
 	public ResponseEntity<ObjectResponse> update(@RequestBody Usuario usuario) {
 
 		try {
-			return build(service.update(usuario), HttpStatus.CREATED);
+			service.update(usuario);
+			return build(service.findByIdFetch(usuario.getId()), HttpStatus.OK);
 
 		} catch(NegocioException e) {
 			return build(e.getMessage(), HttpStatus.BAD_REQUEST, true);
@@ -81,11 +88,11 @@ public class UsuarioController extends GenericController{
 	 * @author ander
 	 * @return
 	 */
-	@RequestMapping(value = "list", method = RequestMethod.GET)
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ResponseEntity<ObjectResponse> listAll(){
 
 		try {
-			return build(service.findAll(), HttpStatus.OK);
+			return build(service.listAllFetch(), HttpStatus.OK);
 
 		} catch(Exception e) {
 			return build("Ops! Erro Inesperado", HttpStatus.BAD_REQUEST, true);

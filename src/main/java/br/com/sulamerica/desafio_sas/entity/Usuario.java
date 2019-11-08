@@ -13,7 +13,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Entity(name = "Usuario")
 @SequenceGenerator(name = "SQ_USUARIO", sequenceName = "SQ_USUARIO", allocationSize = 1)
 public class Usuario extends GenericEntity {
@@ -25,26 +29,33 @@ public class Usuario extends GenericEntity {
 	@Column(name = "id")
 	private Long id;
 
+	@NotNull
 	@Column(name = "nome")
 	private String nome;
 
+	@NotNull
 	@Column(name = "cpf")
 	private String cpf;
 
+	@NotNull
 	@Column(name = "sexo")
 	private String sexo;
 
+	@NotNull
 	@Temporal(TemporalType.DATE)
 	@Column(name = "data_nascimento")
 	private Date dataNascimento;
 
+	@NotNull
 	@Column(name = "ativo")
 	private Boolean ativo;
 
+	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fk_cargo", referencedColumnName = "id")
 	private Cargo cargo;
 
+	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fk_perfil", referencedColumnName = "id")
 	private Perfil perfil;

@@ -85,7 +85,7 @@ public class CargoController extends GenericController{
 	 * @author ander
 	 * @return
 	 */
-	@RequestMapping(value = "list", method = RequestMethod.GET)
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ResponseEntity<ObjectResponse> listAll(){
 
 		try {

@@ -82,4 +82,21 @@ public class UsuarioService implements GenericService<Usuario>{
 		}
 		return true;
 	}
+
+	/**
+	 * @author ander
+	 * @return
+	 */
+	public List<Usuario> listAllFetch() {
+		return repo.listAllFetch();
+	}
+
+	/**
+	 * @author ander
+	 * @param id
+	 * @return
+	 */
+	public Usuario findByIdFetch(Long id) {
+		return repo.findByIdFetch(id);
+	}
 }
