@@ -47,3 +47,6 @@ CREATE SEQUENCE SQ_PERFIL START WITH 1 INCREMENT BY 1;
 INSERT INTO cargo(id, nome) VALUES (SQ_CARGO.NEXTVAL, 'Gerente');
 INSERT INTO cargo(id, nome) VALUES (SQ_CARGO.NEXTVAL, 'Supervisor');
 INSERT INTO cargo(id, nome) VALUES (SQ_CARGO.NEXTVAL, 'Administrativo');
+
+INSERT INTO perfil(id, nome) VALUES (SQ_PERFIL.NEXTVAL, 'Administrador');
+INSERT INTO perfil(id, nome) VALUES (SQ_PERFIL.NEXTVAL, 'Comum');
