@@ -13,7 +13,7 @@ public class Cargo extends GenericEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
+	@Column(name = "id", unique = true)
 	private Long id;
 
 	@Column(name = "nome")

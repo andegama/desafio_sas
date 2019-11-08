@@ -5,7 +5,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import br.com.sulamerica.desafio_sas.entity.Cargo;
+import br.com.sulamerica.desafio_sas.exceptions.NegocioException;
 import br.com.sulamerica.desafio_sas.repository.CargoRepository;
 
 @Service
@@ -15,7 +17,7 @@ public class CargoService implements GenericService<Cargo>{
 	private CargoRepository repo;
 
 	@Override
-	public Cargo save(Cargo cargo) {
+	public Cargo save(Cargo cargo) throws NegocioException{
 		return repo.save(cargo);
 	}
 
