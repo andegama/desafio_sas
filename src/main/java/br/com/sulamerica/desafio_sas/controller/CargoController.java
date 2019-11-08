@@ -13,6 +13,9 @@ import br.com.sulamerica.desafio_sas.exceptions.NegocioException;
 import br.com.sulamerica.desafio_sas.response.ObjectResponse;
 import br.com.sulamerica.desafio_sas.service.CargoService;
 
+/**
+ * @author ander
+ */
 @RestController
 @RequestMapping("/cargo")
 public class CargoController extends GenericController{
@@ -21,6 +24,7 @@ public class CargoController extends GenericController{
 	private CargoService service;
 
 	/**
+	 * @author ander
 	 * @param cargo
 	 * @return
 	 */
@@ -39,6 +43,46 @@ public class CargoController extends GenericController{
 	}
 
 	/**
+	 * @author ander
+	 * @param cargo
+	 * @return
+	 */
+	@RequestMapping(value = "/update", method = RequestMethod.PUT)
+	public ResponseEntity<ObjectResponse> update(@RequestBody Cargo cargo) {
+
+		try {
+			return build(service.update(cargo), HttpStatus.CREATED);
+
+		} catch(NegocioException e) {
+			return build(e.getMessage(), HttpStatus.BAD_REQUEST, true);
+
+		} catch(Exception e) {
+			return build("Ops! Erro Inesperado", HttpStatus.BAD_REQUEST, true);
+		}
+	}
+
+	/**
+	 * @author ander
+	 * @param cargo
+	 * @return
+	 */
+	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+	public ResponseEntity<ObjectResponse> delete(@RequestBody Cargo cargo) {
+
+		try {
+			service.delete(cargo);
+			return build("Removido com sucesso!", HttpStatus.OK);
+
+		} catch(NegocioException e) {
+			return build(e.getMessage(), HttpStatus.BAD_REQUEST, true);
+
+		} catch(Exception e) {
+			return build("Ops! Erro Inesperado", HttpStatus.BAD_REQUEST, true);
+		}
+	}
+
+	/**
+	 * @author ander
 	 * @return
 	 */
 	@RequestMapping(value = "list", method = RequestMethod.GET)

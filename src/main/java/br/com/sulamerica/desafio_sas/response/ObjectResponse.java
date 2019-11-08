@@ -1,5 +1,10 @@
 package br.com.sulamerica.desafio_sas.response;
 
+/**
+ * Objeto utilizado para padronizar as respostas REST
+ * 
+ * @author ander
+ */
 public class ObjectResponse {
 
 	private String message;

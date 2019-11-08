@@ -10,34 +10,79 @@ import br.com.sulamerica.desafio_sas.entity.Cargo;
 import br.com.sulamerica.desafio_sas.exceptions.NegocioException;
 import br.com.sulamerica.desafio_sas.repository.CargoRepository;
 
+/**
+ * @author ander
+ */
 @Service
 public class CargoService implements GenericService<Cargo>{
 
 	@Autowired
 	private CargoRepository repo;
 
+	/**
+	 * @author ander
+	 */
 	@Override
 	public Cargo save(Cargo cargo) throws NegocioException{
 		return repo.save(cargo);
 	}
 
+	/**
+	 * @author ander
+	 */
 	@Override
-	public Cargo update(Cargo cargo) {
+	public Cargo update(Cargo cargo) throws NegocioException{
+
+		if (!exists(cargo)) {
+			throw new NegocioException("Cargo não existe, favor escolher cargo válido.");
+		}
+
 		return repo.save(cargo);
 	}
 
+	/**
+	 * @author ander
+	 */
 	@Override
-	public void delete(Cargo cargo) {
+	public void delete(Cargo cargo) throws NegocioException {
+
+		if (!exists(cargo)) {
+			throw new NegocioException("Cargo não existe, favor escolher cargo válido.");
+		}
+		
 		repo.delete(cargo);
 	}
 
+	/**
+	 * @author ander
+	 */
 	@Override
-	public Optional<Cargo> findBydId(Number id) {
+	public Optional<Cargo> findBydId(Number id) throws NegocioException{
+		if (id == null) {
+			throw new NegocioException("ID não pode ser NULL.");
+		}
 		return repo.findById(id.longValue());
 	}
 
+	/**
+	 * @author ander
+	 */
 	@Override
 	public List<Cargo> findAll() {
 		return repo.findAll();
+	}
+
+	/**
+	 * @author ander
+	 * @param cargo
+	 * @return
+	 * @throws NegocioException
+	 */
+	public Boolean exists(Cargo cargo) throws NegocioException {
+		if (cargo.getId() == null
+				|| this.findBydId(cargo.getId()).isEmpty()){
+			return false;
+		}
+		return true;
 	}
 }
