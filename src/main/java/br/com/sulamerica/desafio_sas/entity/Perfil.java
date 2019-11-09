@@ -21,6 +21,13 @@ public class Perfil extends GenericEntity{
 	@Column(name = "nome")
 	private String nome;
 
+	public Perfil() {
+	}
+
+	public Perfil(String nome) {
+		this.nome = nome;
+	}
+
 	public Long getId() {
 		return id;
 	}
