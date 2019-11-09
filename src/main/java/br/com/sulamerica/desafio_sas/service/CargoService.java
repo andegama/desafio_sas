@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import br.com.sulamerica.desafio_sas.entity.Cargo;
 import br.com.sulamerica.desafio_sas.exceptions.NegocioException;
 import br.com.sulamerica.desafio_sas.repository.CargoRepository;
-import br.com.sulamerica.desafio_sas.repository.CargoRepositoryImpl;
+import br.com.sulamerica.desafio_sas.repository.CargoRepositoryJdbc;
 
 /**
  * @author ander
@@ -21,7 +21,7 @@ public class CargoService implements GenericService<Cargo>{
 	private CargoRepository repo;
 
 	@Autowired
-	private CargoRepositoryImpl repoImpl;
+	private CargoRepositoryJdbc repoImpl;
 
 	/**
 	 * @author ander

@@ -23,6 +23,7 @@ public class CargoRowMapper implements RowMapper<Cargo>{
 		String nome = rs.getString("nome");
 		logger.trace("[CARGO-ROW-MAPPER] - NOME Recebido: " + nome);
 
+		logger.info("[CARGO-ROW-MAPPER] - Finalizado processo de extração de dados de um cargo.");
 		return new Cargo(id, nome);
 	}
 }

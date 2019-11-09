@@ -10,11 +10,16 @@ import br.com.sulamerica.desafio_sas.entity.Cargo;
 import br.com.sulamerica.desafio_sas.rowmapper.CargoRowMapper;
 
 @Repository
-public class CargoRepositoryImpl {
-	
+public class CargoRepositoryJdbc {
+
 	@Autowired
 	private NamedParameterJdbcTemplate jdbcTemplate;
 
+	/**
+	 * @author ander
+	 * @param cargo
+	 * @return
+	 */
 	public Cargo save(Cargo cargo) {
 
 		SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate.getJdbcTemplate())
@@ -23,14 +28,24 @@ public class CargoRepositoryImpl {
 		StringBuilder q = new StringBuilder();
 		q.append("INSERT INTO cargo (id,nome) VALUES (SQ_CARGO.NEXTVAL, :nome)");
 
-		MapSqlParameterSource paramMap = new MapSqlParameterSource();
-		paramMap.addValue("nome", cargo.getNome());
+		Number result = simpleJdbcInsert.executeAndReturnKey(new MapSqlParameterSource().addValue("nome", cargo.getNome()));
 
-		Number result = simpleJdbcInsert.executeAndReturnKey(paramMap);
-//		int result = jdbcTemplate.update(q.toString(), paramMap);
+		return this.findById(result.longValue());
+	}
 
-		return jdbcTemplate.queryForObject("SELECT * FROM cargo WHERE id = :id"
-				,new MapSqlParameterSource().addValue("id", result)
-				,new CargoRowMapper());
+	/**
+	 * @author ander
+	 * @param id
+	 * @return
+	 */
+	public Cargo findById(Long id) {
+
+		StringBuilder q = new StringBuilder();
+
+		q.append("SELECT *")
+		.append(" FROM cargo")
+		.append(" WHERE id = :id");
+
+		return jdbcTemplate.queryForObject(q.toString(), new MapSqlParameterSource().addValue("id", id), new CargoRowMapper());
 	}
 }
