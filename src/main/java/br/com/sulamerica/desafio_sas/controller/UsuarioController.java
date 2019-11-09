@@ -10,17 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-
 import br.com.sulamerica.desafio_sas.entity.Usuario;
 import br.com.sulamerica.desafio_sas.exceptions.NegocioException;
-import br.com.sulamerica.desafio_sas.response.ObjectResponse;
 import br.com.sulamerica.desafio_sas.service.UsuarioService;
 
 @RestController
 @RequestMapping("/usuario")
-public class UsuarioController extends GenericController{
+public class UsuarioController{
 
 	@Autowired
 	private UsuarioService service;
@@ -31,16 +27,16 @@ public class UsuarioController extends GenericController{
 	 * @return
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ResponseEntity<ObjectResponse> save(@Valid @RequestBody Usuario usuario) {
+	public ResponseEntity<Object> save(@Valid @RequestBody Usuario usuario) {
 
 		try {
-			return build(service.save(usuario), HttpStatus.CREATED);
+			return new ResponseEntity<Object>(service.save(usuario), HttpStatus.CREATED);
 
 		} catch(NegocioException e) {
-			return build(e.getMessage(), HttpStatus.BAD_REQUEST, true);
+			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		} catch(Exception e) {
-			return build("Ops! Erro Inesperado", HttpStatus.BAD_REQUEST, true);
+			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -50,17 +46,17 @@ public class UsuarioController extends GenericController{
 	 * @return
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
-	public ResponseEntity<ObjectResponse> update(@RequestBody Usuario usuario) {
+	public ResponseEntity<Object> update(@RequestBody Usuario usuario) {
 
 		try {
 			service.update(usuario);
-			return build(service.findByIdFetch(usuario.getId()), HttpStatus.OK);
+			return new ResponseEntity<Object>(service.findByIdFetch(usuario.getId()), HttpStatus.OK);
 
 		} catch(NegocioException e) {
-			return build(e.getMessage(), HttpStatus.BAD_REQUEST, true);
+			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		} catch(Exception e) {
-			return build("Ops! Erro Inesperado", HttpStatus.BAD_REQUEST, true);
+			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -70,17 +66,17 @@ public class UsuarioController extends GenericController{
 	 * @return
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-	public ResponseEntity<ObjectResponse> delete(@RequestBody Usuario usuario) {
+	public ResponseEntity<Object> delete(@RequestBody Usuario usuario) {
 
 		try {
 			service.delete(usuario);
-			return build("Removido com sucesso!", HttpStatus.OK);
+			return new ResponseEntity<Object>(HttpStatus.OK);
 
 		} catch(NegocioException e) {
-			return build(e.getMessage(), HttpStatus.BAD_REQUEST, true);
+			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		} catch(Exception e) {
-			return build("Ops! Erro Inesperado", HttpStatus.BAD_REQUEST, true);
+			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -89,13 +85,13 @@ public class UsuarioController extends GenericController{
 	 * @return
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ResponseEntity<ObjectResponse> listAll(){
+	public ResponseEntity<Object> listAll(){
 
 		try {
-			return build(service.listAllFetch(), HttpStatus.OK);
+			return new ResponseEntity<Object>(service.listAllFetch(), HttpStatus.OK);
 
 		} catch(Exception e) {
-			return build("Ops! Erro Inesperado", HttpStatus.BAD_REQUEST, true);
+			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

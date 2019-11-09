@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.sulamerica.desafio_sas.entity.Cargo;
 import br.com.sulamerica.desafio_sas.exceptions.NegocioException;
-import br.com.sulamerica.desafio_sas.response.ObjectResponse;
 import br.com.sulamerica.desafio_sas.service.CargoService;
 
 /**
@@ -18,7 +17,7 @@ import br.com.sulamerica.desafio_sas.service.CargoService;
  */
 @RestController
 @RequestMapping("/cargo")
-public class CargoController extends GenericController{
+public class CargoController{
 
 	@Autowired
 	private CargoService service;
@@ -29,16 +28,16 @@ public class CargoController extends GenericController{
 	 * @return
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ResponseEntity<ObjectResponse> save(@RequestBody Cargo cargo) {
+	public ResponseEntity<Object> save(@RequestBody Cargo cargo) {
 
 		try {
-			return build(service.save(cargo), HttpStatus.CREATED);
+			return new ResponseEntity<Object>(service.save(cargo), HttpStatus.CREATED);
 
 		} catch(NegocioException e) {
-			return build(e.getMessage(), HttpStatus.BAD_REQUEST, true);
+			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		} catch(Exception e) {
-			return build("Ops! Erro Inesperado", HttpStatus.BAD_REQUEST, true);
+			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -48,16 +47,16 @@ public class CargoController extends GenericController{
 	 * @return
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
-	public ResponseEntity<ObjectResponse> update(@RequestBody Cargo cargo) {
+	public ResponseEntity<Object> update(@RequestBody Cargo cargo) {
 
 		try {
-			return build(service.update(cargo), HttpStatus.CREATED);
+			return new ResponseEntity<Object>(service.update(cargo), HttpStatus.OK);
 
 		} catch(NegocioException e) {
-			return build(e.getMessage(), HttpStatus.BAD_REQUEST, true);
+			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		} catch(Exception e) {
-			return build("Ops! Erro Inesperado", HttpStatus.BAD_REQUEST, true);
+			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -67,17 +66,17 @@ public class CargoController extends GenericController{
 	 * @return
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-	public ResponseEntity<ObjectResponse> delete(@RequestBody Cargo cargo) {
+	public ResponseEntity<Object> delete(@RequestBody Cargo cargo) {
 
 		try {
 			service.delete(cargo);
-			return build("Removido com sucesso!", HttpStatus.OK);
+			return new ResponseEntity<Object>(HttpStatus.OK);
 
 		} catch(NegocioException e) {
-			return build(e.getMessage(), HttpStatus.BAD_REQUEST, true);
+			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		} catch(Exception e) {
-			return build("Ops! Erro Inesperado", HttpStatus.BAD_REQUEST, true);
+			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -86,13 +85,13 @@ public class CargoController extends GenericController{
 	 * @return
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ResponseEntity<ObjectResponse> listAll(){
+	public ResponseEntity<Object> listAll(){
 
 		try {
-			return build(service.findAll(), HttpStatus.OK);
+			return new ResponseEntity<Object>(service.findAll(), HttpStatus.OK);
 
 		} catch(Exception e) {
-			return build("Ops! Erro Inesperado", HttpStatus.BAD_REQUEST, true);
+			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

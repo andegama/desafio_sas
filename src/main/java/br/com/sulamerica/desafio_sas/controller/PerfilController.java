@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.sulamerica.desafio_sas.entity.Perfil;
 import br.com.sulamerica.desafio_sas.exceptions.NegocioException;
-import br.com.sulamerica.desafio_sas.response.ObjectResponse;
 import br.com.sulamerica.desafio_sas.service.PerfilService;
 
 /**
@@ -18,7 +17,7 @@ import br.com.sulamerica.desafio_sas.service.PerfilService;
  */
 @RestController()
 @RequestMapping("/perfil")
-public class PerfilController extends GenericController{
+public class PerfilController{
 
 	@Autowired
 	private PerfilService service;
@@ -29,16 +28,16 @@ public class PerfilController extends GenericController{
 	 * @return
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ResponseEntity<ObjectResponse> save(@RequestBody Perfil perfil) {
+	public ResponseEntity<Object> save(@RequestBody Perfil perfil) {
 
 		try {
-			return build(service.save(perfil), HttpStatus.CREATED);
+			return new ResponseEntity<Object>(service.save(perfil), HttpStatus.CREATED);
 
 		} catch(NegocioException e) {
-			return build(e.getMessage(), HttpStatus.BAD_REQUEST, true);
+			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		} catch(Exception e) {
-			return build("Ops! Erro Inesperado", HttpStatus.BAD_REQUEST, true);
+			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -48,16 +47,16 @@ public class PerfilController extends GenericController{
 	 * @return
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
-	public ResponseEntity<ObjectResponse> update(@RequestBody Perfil perfil) {
+	public ResponseEntity<Object> update(@RequestBody Perfil perfil) {
 
 		try {
-			return build(service.update(perfil), HttpStatus.CREATED);
+			return new ResponseEntity<Object>(service.update(perfil), HttpStatus.OK);
 
 		} catch(NegocioException e) {
-			return build(e.getMessage(), HttpStatus.BAD_REQUEST, true);
+			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		} catch(Exception e) {
-			return build("Ops! Erro Inesperado", HttpStatus.BAD_REQUEST, true);
+			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -67,17 +66,17 @@ public class PerfilController extends GenericController{
 	 * @return
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-	public ResponseEntity<ObjectResponse> delete(@RequestBody Perfil perfil) {
+	public ResponseEntity<Object> delete(@RequestBody Perfil perfil) {
 
 		try {
 			service.delete(perfil);
-			return build("Removido com sucesso!", HttpStatus.OK);
+			return new ResponseEntity<Object>("Removido com sucesso!", HttpStatus.OK);
 
 		} catch(NegocioException e) {
-			return build(e.getMessage(), HttpStatus.BAD_REQUEST, true);
+			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
 		} catch(Exception e) {
-			return build("Ops! Erro Inesperado", HttpStatus.BAD_REQUEST, true);
+			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -86,13 +85,13 @@ public class PerfilController extends GenericController{
 	 * @return
 	 */
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ResponseEntity<ObjectResponse> listAll(){
+	public ResponseEntity<Object> listAll(){
 
 		try {
-			return build(service.findAll(), HttpStatus.OK);
+			return new ResponseEntity<Object>(service.findAll(), HttpStatus.OK);
 
 		} catch(Exception e) {
-			return build("Ops! Erro Inesperado", HttpStatus.BAD_REQUEST, true);
+			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }
