@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import br.com.sulamerica.desafio_sas.entity.Cargo;
 import br.com.sulamerica.desafio_sas.exceptions.NegocioException;
 import br.com.sulamerica.desafio_sas.repository.CargoRepository;
+import br.com.sulamerica.desafio_sas.repository.CargoRepositoryImpl;
 
 /**
  * @author ander
@@ -19,12 +20,15 @@ public class CargoService implements GenericService<Cargo>{
 	@Autowired
 	private CargoRepository repo;
 
+	@Autowired
+	private CargoRepositoryImpl repoImpl;
+
 	/**
 	 * @author ander
 	 */
 	@Override
 	public Cargo save(Cargo cargo) throws NegocioException{
-		return repo.save(cargo);
+		return repoImpl.save(cargo);
 	}
 
 	/**

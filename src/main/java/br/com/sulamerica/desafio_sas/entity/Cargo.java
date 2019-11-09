@@ -21,6 +21,14 @@ public class Cargo extends GenericEntity{
 	@Column(name = "nome")
 	private String nome;
 
+	public Cargo() {
+	}
+
+	public Cargo(Long id, String nome) {
+		this.id = id;
+		this.nome = nome;
+	}
+
 	public Long getId() {
 		return id;
 	}
