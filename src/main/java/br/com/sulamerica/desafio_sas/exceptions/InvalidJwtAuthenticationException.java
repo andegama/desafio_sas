@@ -1,6 +1,6 @@
 package br.com.sulamerica.desafio_sas.exceptions;
 
-public class InvalidJwtAuthenticationException extends Exception{
+public class InvalidJwtAuthenticationException extends RuntimeException{
 
 	private static final long serialVersionUID = -2354693191500265174L;
 

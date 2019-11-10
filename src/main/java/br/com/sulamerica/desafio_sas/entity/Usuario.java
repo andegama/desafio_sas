@@ -58,12 +58,12 @@ public class Usuario extends GenericEntity implements UserDetails{
 	private Boolean ativo;
 
 	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_cargo", referencedColumnName = "id")
 	private Cargo cargo;
 
 	@NotNull
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "fk_perfil", referencedColumnName = "id")
 	private Perfil perfil;
 
@@ -189,7 +189,7 @@ public class Usuario extends GenericEntity implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<Perfil> authorit = new ArrayList<>();
-		authorit.add(this.perfil);
+		authorit.add(this.getPerfil());
 		return authorit;
 	}
 

@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
 import br.com.sulamerica.desafio_sas.component.JwtTokenProvider;
 
+@SuppressWarnings("deprecation")
 @Configuration
 public class WebConfiguration extends WebSecurityConfigurerAdapter{
 
@@ -34,18 +35,26 @@ public class WebConfiguration extends WebSecurityConfigurerAdapter{
                 .authorizeRequests()
                 .antMatchers("/auth/signin").permitAll()
                 .antMatchers("/h2_console/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/cargo/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/cargo/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/cargo/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/cargo/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, "/cargo/**").hasAuthority("Administrador")
+                .antMatchers(HttpMethod.DELETE, "/cargo/**").hasAuthority("Administrador")
+                .antMatchers(HttpMethod.PUT, "/cargo/**").hasAuthority("Administrador")
+                .antMatchers(HttpMethod.POST, "/cargo/**").hasAuthority("Administrador")
+                .antMatchers(HttpMethod.GET, "/usuario/**").hasAuthority("Administrador")
+                .antMatchers(HttpMethod.DELETE, "/usuario/**").hasAuthority("Administrador")
+                .antMatchers(HttpMethod.PUT, "/usuario/**").hasAuthority("Administrador")
+                .antMatchers(HttpMethod.POST, "/usuario/**").hasAuthority("Administrador")
+                .antMatchers(HttpMethod.GET, "/perfil/**").hasAuthority("Administrador")
+                .antMatchers(HttpMethod.DELETE, "/perfil/**").hasAuthority("Administrador")
+                .antMatchers(HttpMethod.PUT, "/perfil/**").hasAuthority("Administrador")
+                .antMatchers(HttpMethod.POST, "/perfil/**").hasAuthority("Administrador")
                 .anyRequest().authenticated()
             .and()
             .apply(new JwtConfigurer(jwtTokenProvider));
     }
 
-	@SuppressWarnings("deprecation")
+	//TODO - Implementar Encoder
 	@Bean
 	public static NoOpPasswordEncoder passwordEncoder() {
-	return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+		return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
 	}
 }
