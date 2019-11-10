@@ -134,7 +134,7 @@ Exemplo de Body:
 }
 ```
 
-4.3. **Delete Usupario**
+4.3. **Delete Usuário**
 >TYPE:DELETE localhost:8080/usuario/delete
 
 Exemplo de Body:
