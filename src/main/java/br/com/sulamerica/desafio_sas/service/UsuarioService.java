@@ -204,6 +204,10 @@ public class UsuarioService implements GenericService<Usuario>, UserDetailsServi
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		 return this.repo.findByNome(username);
+		 return repo.findByNome(username);
+	}
+
+	public Boolean isActive(String userName) {
+		return repo.isActive(userName);
 	}
 }

@@ -28,4 +28,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 	public Usuario findByNome(String nome);
 
 	public Usuario findByCpf(String cpf);
+
+	@Query("SELECT u.ativo FROM Usuario u WHERE u.userName = :userName")
+	public Boolean isActive(@Param(value = "userName")String userName);
 }

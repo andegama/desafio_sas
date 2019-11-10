@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import br.com.sulamerica.desafio_sas.exceptions.InvalidJwtAuthenticationException;
+import br.com.sulamerica.desafio_sas.service.UsuarioService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
@@ -33,6 +34,9 @@ public class JwtTokenProvider {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private UsuarioService service;
 
     @PostConstruct
     protected void init() {
