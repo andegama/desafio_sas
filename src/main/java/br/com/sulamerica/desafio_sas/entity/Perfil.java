@@ -7,9 +7,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
+import org.springframework.security.core.GrantedAuthority;
+
 @Entity(name = "Perfil")
 @SequenceGenerator(name = "SQ_PERFIL", sequenceName = "SQ_PERFIL", allocationSize = 1)
-public class Perfil extends GenericEntity{
+public class Perfil extends GenericEntity implements GrantedAuthority{
 
 	private static final long serialVersionUID = -3134748806755693582L;
 
@@ -72,5 +74,10 @@ public class Perfil extends GenericEntity{
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String getAuthority() {
+		return this.nome;
 	}
 }

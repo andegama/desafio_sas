@@ -25,7 +25,9 @@ CREATE TABLE usuario (
   data_nascimento DATE NOT NULL,
   ativo BOOLEAN NOT NULL,
   fk_cargo INT NOT NULL,
-  fk_perfil INT NOT NULL
+  fk_perfil INT NOT NULL,
+  user_name VARCHAR(15) NOT NULL,
+  passWord VARCHAR(100) NOT NULL
 );
 
 -- Criacao das FKs
@@ -50,3 +52,6 @@ INSERT INTO cargo(id, nome) VALUES (SQ_CARGO.NEXTVAL, 'Administrativo');
 
 INSERT INTO perfil(id, nome) VALUES (SQ_PERFIL.NEXTVAL, 'Administrador');
 INSERT INTO perfil(id, nome) VALUES (SQ_PERFIL.NEXTVAL, 'Comum');
+
+INSERT INTO usuario(id, nome, cpf, sexo, data_nascimento, ativo, fk_cargo, fk_perfil, user_name, password)
+VALUES (SQ_usuario.NEXTVAL, 'admin', '11111111111', 'M', SYSDATE, true, 3, 1, 'admin', 'admin');

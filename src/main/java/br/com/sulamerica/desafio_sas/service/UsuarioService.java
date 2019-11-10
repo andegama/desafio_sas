@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import br.com.sulamerica.desafio_sas.entity.Usuario;
@@ -16,7 +19,7 @@ import br.com.sulamerica.desafio_sas.repository.UsuarioRepositoryJdbc;
 import br.com.sulamerica.desafio_sas.util.Util;
 
 @Service
-public class UsuarioService implements GenericService<Usuario>{
+public class UsuarioService implements GenericService<Usuario>, UserDetailsService{
 
 	@Autowired
 	private UsuarioRepository repo;
@@ -190,5 +193,10 @@ public class UsuarioService implements GenericService<Usuario>{
 	 */
 	public Usuario findByCpf(String cpf) {
 		return repo.findByCpf(cpf);
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		 return this.repo.findByNome(username);
 	}
 }
