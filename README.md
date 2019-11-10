@@ -9,7 +9,7 @@ Abaixo estão os principais endPoins Utilizados na aplicação:
 1. #Autenticação:- Geração do Token que deve ser utilizado para acessar qualquer requisição no sistema.
 >localhost:8080/auth/signin
 
-**Body:** - Os dados abaixo estão pré-cadastrados no data.sql.
+Exemplo de Body: - Os dados abaixo estão pré-cadastrados no data.sql.
 ```
 {
 	"userName":"admin",
@@ -25,7 +25,7 @@ Abaixo estão os principais endPoins Utilizados na aplicação:
 2.1. **Adicionar Cargo**
 >TYPE:POST localhost:8080/cargo/save
 
-Body:
+Exemplo de Body:
 ```
 {
 	"nome":"Analista de Sistemas"
@@ -35,7 +35,7 @@ Body:
 2.2. **Update Cargo**
 >TYPE:PUT localhost:8080/cargo/update
 
-Body:
+Exemplo de Body:
 ```
 {
 	"id":"4",
@@ -43,10 +43,10 @@ Body:
 }
 ```
 
-2.3. Delete Cargo
+2.3. **Delete Cargo**
 >TYPE:DELETE localhost:8080/cargo/delete
 
-Body:
+Exemplo de Body:
 ```
 {
 	"id":"4"
@@ -59,7 +59,7 @@ Body:
 3.1. **Adicionar Perfil**
 >TYPE:POST localhost:8080/perfil/save
 
-Body:
+Exemplo de Body:
 ```
 {
 	"nome":"Teste Perfil"
@@ -69,7 +69,7 @@ Body:
 3.2. **Update Perfil**
 >TYPE:PUT localhost:8080/perfil/update
 
-Body:
+Exemplo de Body:
 ```
 {
 	"id":"5",
@@ -77,12 +77,69 @@ Body:
 }
 ```
 
-3.3. Delete Cargo
+3.3. **Delete Perfil**
 >TYPE:DELETE localhost:8080/perfil/delete
 
-Body:
+Exemplo de Body:
 ```
 {
 	"id":"4"
+}
+```
+
+4. **Listar Usuários**
+>TYPE:GET localhost:8080/usuario/list
+
+4.1. **Adicionar Usuário**
+>TYPE:POST localhost:8080/usuario/save
+
+Exemplo de Body:
+```
+{
+	"nome":"Usuario 3",
+	"cpf":"19691926075",
+	"sexo":"M",
+	"dataNascimento":"1990-02-01",
+	"ativo":"true",
+	"cargo":{
+		"id":"1"
+	},
+	"perfil":{
+		"id":"1"
+	},
+	"userName":"admin",
+	"password":"teste"
+}
+```
+
+4.2. **Update Usuário**
+>TYPE:PUT localhost:8080/usuario/update
+
+Exemplo de Body:
+```
+{
+	"nome":"Usuario 3",
+	"cpf":"19691926075",
+	"sexo":"M",
+	"dataNascimento":"1990-02-01",
+	"ativo":"true",
+	"cargo":{
+		"id":"1"
+	},
+	"perfil":{
+		"id":"1"
+	},
+	"userName":"admin",
+	"password":"teste"
+}
+```
+
+4.3. **Delete Usupario**
+>TYPE:DELETE localhost:8080/usuario/delete
+
+Exemplo de Body:
+```
+{
+	"id":"2"
 }
 ```
