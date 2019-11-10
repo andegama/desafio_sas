@@ -1,5 +1,6 @@
 package br.com.sulamerica.desafio_sas.entity;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -63,6 +64,20 @@ public class Usuario extends GenericEntity {
 	public Usuario() {
 	}
 
+	public Usuario(Long id, String nome, String cpf, String sexo,
+			Date dataNascimento, Boolean ativo, Cargo cargo, Perfil perfil) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.cpf = cpf;
+		this.sexo = sexo;
+		this.dataNascimento = dataNascimento;
+		this.ativo = ativo;
+		this.cargo = cargo;
+		this.perfil = perfil;
+	}
+
+
 	public Long getId() {
 		return id;
 	}
@@ -125,6 +140,11 @@ public class Usuario extends GenericEntity {
 
 	public void setPerfil(Perfil perfil) {
 		this.perfil = perfil;
+	}
+
+	public String getDataNascimentoFormatada() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		return sdf.format(this.dataNascimento);
 	}
 
 	@Override

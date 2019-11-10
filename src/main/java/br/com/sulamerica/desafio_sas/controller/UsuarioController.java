@@ -94,4 +94,70 @@ public class UsuarioController{
 			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+
+	/**
+	 * @author ander
+	 * @param usuario
+	 * @return
+	 */
+	@RequestMapping(value = "/inativar", method = RequestMethod.PUT)
+	public ResponseEntity<Object> inativar(@RequestBody Usuario usuario) {
+
+		try {
+			service.inativar(usuario);
+			return new ResponseEntity<Object>(service.findByIdFetch(usuario.getId()), HttpStatus.OK);
+
+		} catch(NegocioException e) {
+			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
+
+		} catch(Exception e) {
+			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
+	 * @author ander
+	 * @return
+	 */
+	@RequestMapping(value = "/findCpfStartsWithZero", method = RequestMethod.GET)
+	public ResponseEntity<Object> findCpfStartsWithZero(){
+
+		try {
+			return new ResponseEntity<Object>(service.findCpfStartsWithZero(), HttpStatus.OK);
+
+		} catch(Exception e) {
+			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
+	 * @author ander
+	 * @return
+	 */
+	@RequestMapping(value = "/findFeminoMaiorIdade", method = RequestMethod.GET)
+	public ResponseEntity<Object> findFeminoMaiorIdade(){
+
+		try {
+			return new ResponseEntity<Object>(service.findFeminoMaiorIdade(), HttpStatus.OK);
+
+		} catch(Exception e) {
+			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+	/**
+	 * @author ander
+	 * @param usuario
+	 * @return
+	 */
+	@RequestMapping(value = "/findByFilter", method = RequestMethod.GET)
+	public ResponseEntity<Object> findByFilter(@RequestBody Usuario usuario){
+
+		try {
+			return new ResponseEntity<Object>(service.findByFilter(usuario), HttpStatus.OK);
+
+		} catch(Exception e) {
+			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
 }
