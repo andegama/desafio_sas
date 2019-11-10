@@ -5,19 +5,26 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import br.com.sulamerica.desafio_sas.component.JwtTokenProvider;
 
-@SuppressWarnings("deprecation")
 @Configuration
 public class WebConfiguration extends WebSecurityConfigurerAdapter{
 
+	private final String ADMIN = "Administrador";
+
 	@Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+	@Autowired
+    private UserDetailsService userDetailsService;
 
 	@Bean
     @Override
@@ -35,26 +42,30 @@ public class WebConfiguration extends WebSecurityConfigurerAdapter{
                 .authorizeRequests()
                 .antMatchers("/auth/signin").permitAll()
                 .antMatchers("/h2_console/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/cargo/**").hasAuthority("Administrador")
-                .antMatchers(HttpMethod.DELETE, "/cargo/**").hasAuthority("Administrador")
-                .antMatchers(HttpMethod.PUT, "/cargo/**").hasAuthority("Administrador")
-                .antMatchers(HttpMethod.POST, "/cargo/**").hasAuthority("Administrador")
-                .antMatchers(HttpMethod.GET, "/usuario/**").hasAuthority("Administrador")
-                .antMatchers(HttpMethod.DELETE, "/usuario/**").hasAuthority("Administrador")
-                .antMatchers(HttpMethod.PUT, "/usuario/**").hasAuthority("Administrador")
-                .antMatchers(HttpMethod.POST, "/usuario/**").hasAuthority("Administrador")
-                .antMatchers(HttpMethod.GET, "/perfil/**").hasAuthority("Administrador")
-                .antMatchers(HttpMethod.DELETE, "/perfil/**").hasAuthority("Administrador")
-                .antMatchers(HttpMethod.PUT, "/perfil/**").hasAuthority("Administrador")
-                .antMatchers(HttpMethod.POST, "/perfil/**").hasAuthority("Administrador")
+                .antMatchers(HttpMethod.GET, "/**").hasAuthority(ADMIN)
+                .antMatchers(HttpMethod.DELETE, "/**").hasAuthority(ADMIN)
+                .antMatchers(HttpMethod.PUT, "/**").hasAuthority(ADMIN)
+                .antMatchers(HttpMethod.POST, "/**").hasAuthority(ADMIN)
                 .anyRequest().authenticated()
             .and()
             .apply(new JwtConfigurer(jwtTokenProvider));
     }
 
-	//TODO - Implementar Encoder
+//	@Bean
+//	public static NoOpPasswordEncoder passwordEncoder() {
+//		return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+//	}
+
 	@Bean
-	public static NoOpPasswordEncoder passwordEncoder() {
-		return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+	public PasswordEncoder passwordEncoder() {
+	    return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public DaoAuthenticationProvider authProvider() {
+	    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+	    authProvider.setUserDetailsService(userDetailsService);
+	    authProvider.setPasswordEncoder(passwordEncoder());
+	    return authProvider;
 	}
 }

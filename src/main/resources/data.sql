@@ -54,4 +54,4 @@ INSERT INTO perfil(id, nome) VALUES (SQ_PERFIL.NEXTVAL, 'Administrador');
 INSERT INTO perfil(id, nome) VALUES (SQ_PERFIL.NEXTVAL, 'Comum');
 
 INSERT INTO usuario(id, nome, cpf, sexo, data_nascimento, ativo, fk_cargo, fk_perfil, user_name, password)
-VALUES (SQ_usuario.NEXTVAL, 'admin', '11111111111', 'M', SYSDATE, true, 3, 1, 'admin', 'admin');
+VALUES (SQ_usuario.NEXTVAL, 'admin', '11111111111', 'M', SYSDATE, true, 3, 1, 'admin', '$2a$10$Qe.WiG3JGflPXdSxtE31qOJjC0YVfb6AM4/76a2lMcgL/.yBFa01S');

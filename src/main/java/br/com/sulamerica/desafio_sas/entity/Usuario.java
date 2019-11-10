@@ -91,7 +91,6 @@ public class Usuario extends GenericEntity implements UserDetails{
 		this.perfil = perfil;
 	}
 
-
 	public Long getId() {
 		return id;
 	}

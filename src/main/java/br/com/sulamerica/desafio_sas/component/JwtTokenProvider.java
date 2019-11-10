@@ -79,6 +79,7 @@ public class JwtTokenProvider {
             }
             return true;
         } catch (JwtException | IllegalArgumentException e) {
+        	//TODO - Ao expirar gera erro 500 - Ajustar.
             throw new InvalidJwtAuthenticationException("Token Expirado ou Inválido.");
         }
     }

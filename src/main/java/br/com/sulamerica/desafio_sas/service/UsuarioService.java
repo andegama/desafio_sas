@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.sulamerica.desafio_sas.entity.Usuario;
@@ -26,6 +27,9 @@ public class UsuarioService implements GenericService<Usuario>, UserDetailsServi
 
 	@Autowired
 	private UsuarioRepositoryJdbc repoJdbc;
+
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	/**
 	 * @author ander
@@ -44,6 +48,9 @@ public class UsuarioService implements GenericService<Usuario>, UserDetailsServi
 		if (this.findByCpf(usuario.getCpf()) != null) {
 			throw new NegocioException("Não é possível inserir, cpf já registrado.");
 		}
+
+		String encodePassword = passwordEncoder.encode(usuario.getPassword());;
+		usuario.setPassword(encodePassword);
 
 		return repo.save(usuario);
 	}

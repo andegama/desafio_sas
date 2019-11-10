@@ -1,5 +1,8 @@
 package br.com.sulamerica.desafio_sas.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import br.com.sulamerica.desafio_sas.dto.UsuarioDTO;
 import br.com.sulamerica.desafio_sas.entity.Usuario;
 import br.com.sulamerica.desafio_sas.exceptions.NegocioException;
 import br.com.sulamerica.desafio_sas.service.UsuarioService;
@@ -27,10 +34,10 @@ public class UsuarioController{
 	 * @return
 	 */
 	@RequestMapping(value = "/save", method = RequestMethod.POST)
-	public ResponseEntity<Object> save(@Valid @RequestBody Usuario usuario) {
+	public ResponseEntity<Object> save(@Valid @RequestBody UsuarioDTO usuario) {
 
 		try {
-			return new ResponseEntity<Object>(service.save(usuario), HttpStatus.CREATED);
+			return new ResponseEntity<Object>(new UsuarioDTO(service.save(usuario.toEntity())), HttpStatus.CREATED);
 
 		} catch(NegocioException e) {
 			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -46,11 +53,11 @@ public class UsuarioController{
 	 * @return
 	 */
 	@RequestMapping(value = "/update", method = RequestMethod.PUT)
-	public ResponseEntity<Object> update(@RequestBody Usuario usuario) {
+	public ResponseEntity<Object> update(@RequestBody UsuarioDTO usuario) {
 
 		try {
-			service.update(usuario);
-			return new ResponseEntity<Object>(service.findByIdFetch(usuario.getId()), HttpStatus.OK);
+			service.update(usuario.toEntity());
+			return new ResponseEntity<Object>(new UsuarioDTO(service.findByIdFetch(usuario.getId())), HttpStatus.OK);
 
 		} catch(NegocioException e) {
 			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -66,10 +73,10 @@ public class UsuarioController{
 	 * @return
 	 */
 	@RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> delete(@RequestBody Usuario usuario) {
+	public ResponseEntity<Object> delete(@RequestBody UsuarioDTO usuario) {
 
 		try {
-			service.delete(usuario);
+			service.delete(usuario.toEntity());
 			return new ResponseEntity<Object>(HttpStatus.OK);
 
 		} catch(NegocioException e) {
@@ -84,11 +91,23 @@ public class UsuarioController{
 	 * @author ander
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ResponseEntity<Object> listAll(){
 
 		try {
-			return new ResponseEntity<Object>(service.listAllFetch(), HttpStatus.OK);
+			List<UsuarioDTO> lista = new ArrayList<>();
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.setSerializationInclusion(Include.NON_NULL);
+
+			for (Usuario usuario : service.listAllFetch()) {
+				lista.add(new UsuarioDTO(usuario));
+			}
+
+			final String jsonList = mapper.writeValueAsString(lista);
+			lista = mapper.readValue(jsonList, ArrayList.class);
+
+			return new ResponseEntity<Object>(lista, HttpStatus.OK);
 
 		} catch(Exception e) {
 			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -101,10 +120,10 @@ public class UsuarioController{
 	 * @return
 	 */
 	@RequestMapping(value = "/inativar", method = RequestMethod.PUT)
-	public ResponseEntity<Object> inativar(@RequestBody Usuario usuario) {
+	public ResponseEntity<Object> inativar(@RequestBody UsuarioDTO usuario) {
 
 		try {
-			service.inativar(usuario);
+			service.inativar(usuario.toEntity());
 			return new ResponseEntity<Object>(service.findByIdFetch(usuario.getId()), HttpStatus.OK);
 
 		} catch(NegocioException e) {
@@ -119,11 +138,23 @@ public class UsuarioController{
 	 * @author ander
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/findCpfStartsWithZero", method = RequestMethod.GET)
 	public ResponseEntity<Object> findCpfStartsWithZero(){
 
 		try {
-			return new ResponseEntity<Object>(service.findCpfStartsWithZero(), HttpStatus.OK);
+			List<UsuarioDTO> lista = new ArrayList<>();
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.setSerializationInclusion(Include.NON_NULL);
+
+			for (Usuario usuario : service.findCpfStartsWithZero()) {
+				lista.add(new UsuarioDTO(usuario));
+			}
+
+			final String jsonList = mapper.writeValueAsString(lista);
+			lista = mapper.readValue(jsonList, ArrayList.class);
+
+			return new ResponseEntity<Object>(lista, HttpStatus.OK);
 
 		} catch(Exception e) {
 			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -134,11 +165,23 @@ public class UsuarioController{
 	 * @author ander
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/findFeminoMaiorIdade", method = RequestMethod.GET)
 	public ResponseEntity<Object> findFeminoMaiorIdade(){
 
 		try {
-			return new ResponseEntity<Object>(service.findFeminoMaiorIdade(), HttpStatus.OK);
+			List<UsuarioDTO> lista = new ArrayList<>();
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.setSerializationInclusion(Include.NON_NULL);
+
+			for (Usuario usuario : service.findFeminoMaiorIdade()) {
+				lista.add(new UsuarioDTO(usuario));
+			}
+
+			final String jsonList = mapper.writeValueAsString(lista);
+			lista = mapper.readValue(jsonList, ArrayList.class);
+
+			return new ResponseEntity<Object>(lista, HttpStatus.OK);
 
 		} catch(Exception e) {
 			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -151,10 +194,10 @@ public class UsuarioController{
 	 * @return
 	 */
 	@RequestMapping(value = "/findByFilter", method = RequestMethod.GET)
-	public ResponseEntity<Object> findByFilter(@RequestBody Usuario usuario){
+	public ResponseEntity<Object> findByFilter(@RequestBody UsuarioDTO usuario){
 
 		try {
-			return new ResponseEntity<Object>(service.findByFilter(usuario), HttpStatus.OK);
+			return new ResponseEntity<Object>(service.findByFilter(usuario.toEntity()), HttpStatus.OK);
 
 		} catch(Exception e) {
 			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
