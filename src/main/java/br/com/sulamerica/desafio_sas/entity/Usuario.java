@@ -78,6 +78,10 @@ public class Usuario extends GenericEntity implements UserDetails{
 	public Usuario() {
 	}
 
+	public Usuario(Long id) {
+		this.id = id;
+	}
+
 	public Usuario(Long id, String nome, String cpf, String sexo,
 			Date dataNascimento, Boolean ativo, Cargo cargo, Perfil perfil
 			,String userName, String password) {

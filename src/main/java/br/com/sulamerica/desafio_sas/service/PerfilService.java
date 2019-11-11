@@ -54,7 +54,7 @@ public class PerfilService implements GenericService<Perfil>{
 	 * @author ander
 	 */
 	@Override
-	public Optional<Perfil> findBydId(Number id) throws NegocioException{
+	public Optional<Perfil> findById(Long id) throws NegocioException{
 		if (id == null) {
 			throw new NegocioException("ID não pode ser NULL.");
 		}
@@ -77,7 +77,7 @@ public class PerfilService implements GenericService<Perfil>{
 	 */
 	public Boolean exists(Perfil perfil) throws NegocioException {
 		if (perfil.getId() == null
-				|| this.findBydId(perfil.getId()).isEmpty()){
+				|| this.findById(perfil.getId()).isEmpty()){
 			return false;
 		}
 		return true;

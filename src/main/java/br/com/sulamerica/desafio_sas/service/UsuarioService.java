@@ -85,7 +85,7 @@ public class UsuarioService implements GenericService<Usuario>, UserDetailsServi
 	 * @author ander
 	 */
 	@Override
-	public Optional<Usuario> findBydId(Number id) throws NegocioException{
+	public Optional<Usuario> findById(Long id) throws NegocioException{
 		if (id == null) {
 			throw new NegocioException("ID não pode ser NULL.");
 		}
@@ -108,7 +108,7 @@ public class UsuarioService implements GenericService<Usuario>, UserDetailsServi
 	 */
 	public Boolean exists(Usuario usuario) throws NegocioException {
 		if (usuario.getId() == null
-				|| this.findBydId(usuario.getId()).isEmpty()){
+				|| this.findById(usuario.getId()).isEmpty()){
 			return false;
 		}
 		return true;

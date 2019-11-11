@@ -18,6 +18,6 @@ public interface GenericService<T extends GenericEntity>{
 	public T save(T t) throws NegocioException;
 	public T update(T t) throws NegocioException;
 	public void delete(T t) throws NegocioException;
-	public Optional<T> findBydId(Number id) throws NegocioException;
+	public Optional<T> findById(Long id) throws NegocioException;
 	public List<T> findAll();
 }

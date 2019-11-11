@@ -61,7 +61,7 @@ public class CargoService implements GenericService<Cargo>{
 	 * @author ander
 	 */
 	@Override
-	public Optional<Cargo> findBydId(Number id) throws NegocioException{
+	public Optional<Cargo> findById(Long id) throws NegocioException{
 		if (id == null) {
 			throw new NegocioException("ID não pode ser NULL.");
 		}
@@ -84,7 +84,7 @@ public class CargoService implements GenericService<Cargo>{
 	 */
 	public Boolean exists(Cargo cargo) throws NegocioException {
 		if (cargo.getId() == null
-				|| this.findBydId(cargo.getId()).isEmpty()){
+				|| this.findById(cargo.getId()).isEmpty()){
 			return false;
 		}
 		return true;
