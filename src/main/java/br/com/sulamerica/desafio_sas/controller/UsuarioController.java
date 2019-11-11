@@ -197,11 +197,23 @@ public class UsuarioController{
 	 * @param usuario
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/findByFilter", method = RequestMethod.GET)
 	public ResponseEntity<Object> findByFilter(@RequestBody UsuarioDTO usuario){
 
 		try {
-			return ok(service.findByFilter(usuario.toEntity()));
+			List<UsuarioDTO> lista = new ArrayList<>();
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.setSerializationInclusion(Include.NON_NULL);
+
+			for (Usuario user : service.findByFilter(usuario.toEntity())) {
+				lista.add(new UsuarioDTO(user));
+			}
+
+			final String jsonList = mapper.writeValueAsString(lista);
+			lista = mapper.readValue(jsonList, ArrayList.class);
+
+			return ok(lista);
 
 		} catch(Exception e) {
 			return status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ops! Erro Inesperado");
