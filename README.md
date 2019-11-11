@@ -149,3 +149,29 @@ Exemplo de Body:
 	"id":"2"
 }
 ```
+
+4.4 **Listar Usuários com CPF começando em Zero**
+>GET localhost:8080/usuario/findCpfStartsWithZero
+
+4.5 **Listar com Filtro**
+>GET localhost:8080/usuario/findByFilter
+
+Exemplo de Body:
+```
+{
+	"cpf":"12968278797"
+}
+```
+
+4.6 **Listar Mulheres maiores de 18 anos**
+>GET localhost:8080/usuario/findCpfStartsWithZero
+
+4.7 **Inativar um Usuário**
+>PUT localhost:8080/usuario/inativar
+
+Exemplo de Body:
+```
+{
+	"id":"1"
+}
+```
