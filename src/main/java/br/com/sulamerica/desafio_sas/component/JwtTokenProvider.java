@@ -15,7 +15,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
-import br.com.sulamerica.desafio_sas.exceptions.InvalidJwtAuthenticationException;
 import br.com.sulamerica.desafio_sas.service.UsuarioService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -83,8 +82,7 @@ public class JwtTokenProvider {
             }
             return true;
         } catch (JwtException | IllegalArgumentException e) {
-        	//TODO - Ao expirar gera erro 500 - Ajustar.
-            throw new InvalidJwtAuthenticationException("Token Expirado ou Inválido.");
+            return false;
         }
     }
 }

@@ -3,7 +3,10 @@ package br.com.sulamerica.desafio_sas.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.com.sulamerica.desafio_sas.entity.Cargo;
@@ -16,6 +19,8 @@ import br.com.sulamerica.desafio_sas.repository.CargoRepositoryJdbc;
  */
 @Service
 public class CargoService implements GenericService<Cargo>{
+
+	private Logger logger = LogManager.getLogger(CargoService.class);
 
 	@Autowired
 	private CargoRepository repo;
@@ -51,10 +56,17 @@ public class CargoService implements GenericService<Cargo>{
 	public void delete(Cargo cargo) throws NegocioException {
 
 		if (!exists(cargo)) {
+			logger.info("[CARGO-SERVICE] - Impossível deletar, cargo inexistente, id: " + cargo.getId());
 			throw new NegocioException("Cargo não existe, favor escolher cargo válido.");
 		}
-		
-		repo.delete(cargo);
+
+		try {
+			repo.delete(cargo);
+
+		} catch(DataIntegrityViolationException e) {
+			logger.info("[CARGO-SERVICE] - Impossível deletar cargo em uso, id: " + cargo.getId());
+			throw new NegocioException("Ops! Parece que este cargo está sendo utilizado, impossível deletar.");
+		}
 	}
 
 	/**

@@ -1,5 +1,9 @@
 package br.com.sulamerica.desafio_sas.controller;
 
+import static org.springframework.http.ResponseEntity.badRequest;
+import static org.springframework.http.ResponseEntity.ok;
+import static org.springframework.http.ResponseEntity.status;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,13 +35,13 @@ public class PerfilController{
 	public ResponseEntity<Object> save(@RequestBody Perfil perfil) {
 
 		try {
-			return new ResponseEntity<Object>(service.save(perfil), HttpStatus.CREATED);
+			return status(HttpStatus.CREATED).body(service.save(perfil));
 
 		} catch(NegocioException e) {
-			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return badRequest().body(e.getMessage());
 
 		} catch(Exception e) {
-			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
+			return status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ops! Erro Inesperado");
 		}
 	}
 
@@ -50,13 +54,13 @@ public class PerfilController{
 	public ResponseEntity<Object> update(@RequestBody Perfil perfil) {
 
 		try {
-			return new ResponseEntity<Object>(service.update(perfil), HttpStatus.OK);
+			return ok(service.update(perfil));
 
 		} catch(NegocioException e) {
-			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return badRequest().body(e.getMessage());
 
 		} catch(Exception e) {
-			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
+			return status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ops! Erro Inesperado");
 		}
 	}
 
@@ -70,13 +74,13 @@ public class PerfilController{
 
 		try {
 			service.delete(perfil);
-			return new ResponseEntity<Object>("Removido com sucesso!", HttpStatus.OK);
+			return ok("Removido com sucesso!");
 
 		} catch(NegocioException e) {
-			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return badRequest().body(e.getMessage());
 
 		} catch(Exception e) {
-			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
+			return status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ops! Erro Inesperado");
 		}
 	}
 
@@ -91,7 +95,7 @@ public class PerfilController{
 			return new ResponseEntity<Object>(service.findAll(), HttpStatus.OK);
 
 		} catch(Exception e) {
-			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
+			return status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ops! Erro Inesperado");
 		}
 	}
 }

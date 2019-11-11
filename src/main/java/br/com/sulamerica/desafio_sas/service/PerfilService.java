@@ -3,7 +3,10 @@ package br.com.sulamerica.desafio_sas.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.com.sulamerica.desafio_sas.entity.Perfil;
@@ -12,6 +15,8 @@ import br.com.sulamerica.desafio_sas.repository.PerfilRepository;
 
 @Service
 public class PerfilService implements GenericService<Perfil>{
+
+	private Logger logger = LogManager.getLogger(PerfilService.class);
 
 	@Autowired
 	private PerfilRepository repo;
@@ -44,10 +49,17 @@ public class PerfilService implements GenericService<Perfil>{
 	public void delete(Perfil perfil) throws NegocioException {
 
 		if (!exists(perfil)) {
+			logger.info("[PERFIL-SERVICE] - Impossível deletar, perfil inexistente, id: " + perfil.getId());
 			throw new NegocioException("Perfil não existe, favor escolher Perfil válido.");
 		}
-		
-		repo.delete(perfil);
+
+		try {
+			repo.delete(perfil);
+
+		} catch(DataIntegrityViolationException e) {
+			logger.info("[PERFIL-SERVICE] - Impossível deletar perfil em uso, id: " + perfil.getId());
+			throw new NegocioException("Ops! Parece que este perfil está sendo utilizado, impossível deletar.");
+		}
 	}
 
 	/**

@@ -1,5 +1,9 @@
 package br.com.sulamerica.desafio_sas.controller;
 
+import static org.springframework.http.ResponseEntity.badRequest;
+import static org.springframework.http.ResponseEntity.ok;
+import static org.springframework.http.ResponseEntity.status;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,13 +41,13 @@ public class UsuarioController{
 	public ResponseEntity<Object> save(@Valid @RequestBody UsuarioDTO usuario) {
 
 		try {
-			return new ResponseEntity<Object>(new UsuarioDTO(service.save(usuario.toEntity())), HttpStatus.CREATED);
+			return status(HttpStatus.CREATED).body(new UsuarioDTO(service.save(usuario.toEntity())));
 
 		} catch(NegocioException e) {
-			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return badRequest().body(e.getMessage());
 
 		} catch(Exception e) {
-			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
+			return status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ops! Erro Inesperado");
 		}
 	}
 
@@ -57,13 +61,13 @@ public class UsuarioController{
 
 		try {
 			service.update(usuario.toEntity());
-			return new ResponseEntity<Object>(new UsuarioDTO(service.findByIdFetch(usuario.getId())), HttpStatus.OK);
+			return ok(new UsuarioDTO(service.findByIdFetch(usuario.getId())));
 
 		} catch(NegocioException e) {
-			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return badRequest().body(e.getMessage());
 
 		} catch(Exception e) {
-			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
+			return status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ops! Erro Inesperado");
 		}
 	}
 
@@ -77,13 +81,13 @@ public class UsuarioController{
 
 		try {
 			service.delete(usuario.toEntity());
-			return new ResponseEntity<Object>(HttpStatus.OK);
+			return ok().build();
 
 		} catch(NegocioException e) {
-			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return badRequest().body(e.getMessage());
 
 		} catch(Exception e) {
-			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
+			return status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ops! Erro Inesperado");
 		}
 	}
 
@@ -107,10 +111,10 @@ public class UsuarioController{
 			final String jsonList = mapper.writeValueAsString(lista);
 			lista = mapper.readValue(jsonList, ArrayList.class);
 
-			return new ResponseEntity<Object>(lista, HttpStatus.OK);
+			return ok(lista);
 
 		} catch(Exception e) {
-			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
+			return status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ops! Erro Inesperado");
 		}
 	}
 
@@ -124,13 +128,13 @@ public class UsuarioController{
 
 		try {
 			service.inativar(usuario.toEntity());
-			return new ResponseEntity<Object>(new UsuarioDTO(service.findByIdFetch(usuario.getId())), HttpStatus.OK);
+			return ok(new UsuarioDTO(service.findByIdFetch(usuario.getId())));
 
 		} catch(NegocioException e) {
-			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return badRequest().body(e.getMessage());
 
 		} catch(Exception e) {
-			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
+			return status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ops! Erro Inesperado");
 		}
 	}
 
@@ -154,10 +158,10 @@ public class UsuarioController{
 			final String jsonList = mapper.writeValueAsString(lista);
 			lista = mapper.readValue(jsonList, ArrayList.class);
 
-			return new ResponseEntity<Object>(lista, HttpStatus.OK);
+			return ok(lista);
 
 		} catch(Exception e) {
-			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
+			return status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ops! Erro Inesperado");
 		}
 	}
 
@@ -181,10 +185,10 @@ public class UsuarioController{
 			final String jsonList = mapper.writeValueAsString(lista);
 			lista = mapper.readValue(jsonList, ArrayList.class);
 
-			return new ResponseEntity<Object>(lista, HttpStatus.OK);
+			return ok(lista);
 
 		} catch(Exception e) {
-			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
+			return status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ops! Erro Inesperado");
 		}
 	}
 
@@ -197,10 +201,10 @@ public class UsuarioController{
 	public ResponseEntity<Object> findByFilter(@RequestBody UsuarioDTO usuario){
 
 		try {
-			return new ResponseEntity<Object>(service.findByFilter(usuario.toEntity()), HttpStatus.OK);
+			return ok(service.findByFilter(usuario.toEntity()));
 
 		} catch(Exception e) {
-			return new ResponseEntity<Object>("Ops! Erro Inesperado", HttpStatus.INTERNAL_SERVER_ERROR);
+			return status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ops! Erro Inesperado");
 		}
 	}
 }
