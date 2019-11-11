@@ -124,7 +124,7 @@ public class UsuarioController{
 
 		try {
 			service.inativar(usuario.toEntity());
-			return new ResponseEntity<Object>(service.findByIdFetch(usuario.getId()), HttpStatus.OK);
+			return new ResponseEntity<Object>(new UsuarioDTO(service.findByIdFetch(usuario.getId())), HttpStatus.OK);
 
 		} catch(NegocioException e) {
 			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.BAD_REQUEST);
