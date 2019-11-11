@@ -19,7 +19,7 @@ Exemplo de Body: - Os dados abaixo estão pré-cadastrados no data.sql.
 
 **Obs.:** Para qualquer requisição abaixo será necessário colocar o Bearer Token gerado acima.
 
-2 . **Listar Cargos**
+2. **Listar Cargos**
 >TYPE:GET localhost:8080/cargo/list
 
 2.1. **Adicionar Cargo**
