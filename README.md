@@ -4,7 +4,14 @@ Esta é uma API REST com Spring Web Security.
 
 Abaixo estão os principais endPoins Utilizados na aplicação:
 
-# Endpoints
+## Construção e Testes
+
+```
+mvn install
+mvn test
+```
+
+## Endpoints
 
 1. #Autenticação:- Geração do Token que deve ser utilizado para acessar qualquer requisição no sistema.
 >localhost:8080/auth/signin
