@@ -26,6 +26,10 @@ public class Perfil extends GenericEntity implements GrantedAuthority{
 	public Perfil() {
 	}
 
+	public Perfil(Long id) {
+		this.id = id;
+	}
+
 	public Perfil(String nome) {
 		this.nome = nome;
 	}

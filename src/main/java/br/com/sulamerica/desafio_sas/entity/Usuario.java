@@ -79,7 +79,8 @@ public class Usuario extends GenericEntity implements UserDetails{
 	}
 
 	public Usuario(Long id, String nome, String cpf, String sexo,
-			Date dataNascimento, Boolean ativo, Cargo cargo, Perfil perfil) {
+			Date dataNascimento, Boolean ativo, Cargo cargo, Perfil perfil
+			,String userName, String password) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -89,6 +90,8 @@ public class Usuario extends GenericEntity implements UserDetails{
 		this.ativo = ativo;
 		this.cargo = cargo;
 		this.perfil = perfil;
+		this.userName = userName;
+		this.password = password;
 	}
 
 	public Long getId() {

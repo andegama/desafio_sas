@@ -51,7 +51,13 @@ public class UsuarioRowMapper implements RowMapper<Usuario>{
 		String nomePerfil = rs.getString("nome_perfil");
 		logger.trace("[CARGO-ROW-MAPPER] - NOME PERFIL Recebido: " + nomePerfil);
 
+		String userName = rs.getString("user_name");
+		logger.trace("[CARGO-ROW-MAPPER] - NOME PERFIL Recebido: " + userName);
+
+		String password = rs.getString("password");
+		logger.trace("[CARGO-ROW-MAPPER] - NOME PERFIL Recebido: " + password);
+
 		logger.info("[CARGO-ROW-MAPPER] - Finalizado processo de extração de dados de um cargo.");
-		return new Usuario(id, nome, cpf, sexo, dataNascimento, ativo, new Cargo(idCargo, nomeCargo), new Perfil(idPerfil, nomePerfil));
+		return new Usuario(id, nome, cpf, sexo, dataNascimento, ativo, new Cargo(idCargo, nomeCargo), new Perfil(idPerfil, nomePerfil), userName, password);
 	}
 }

@@ -37,6 +37,8 @@ public class UsuarioRepositoryJdbc {
 		.append(" ,c.nome AS nome_cargo")
 		.append(" ,p.id AS id_perfil")
 		.append(" ,p.nome AS nome_perfil")
+		.append(" ,u.user_name")
+		.append(" ,u.password")
 		.append(" FROM usuario u")
 		.append(" JOIN cargo c ON (c.id = u.fk_cargo)")
 		.append(" JOIN perfil p ON (p.id = u.fk_perfil)")
